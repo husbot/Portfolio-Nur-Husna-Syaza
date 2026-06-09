@@ -98,12 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'Automated attendance tracking, class scheduling, and payment management to reduce administrative workload.',
         'Implemented UPDATE/DELETE workflows with cascading constraints for referential integrity.'
       ],
-      images: [
-        { src: 'https://picsum.photos/seed/proj1a/600/380', alt: 'Database Schema Design' },
-        { src: 'https://picsum.photos/seed/proj1b/600/380', alt: 'ER Diagram Overview' },
-        { src: 'https://picsum.photos/seed/proj1c/600/380', alt: 'Member Management Query Result' },
-        { src: 'https://picsum.photos/seed/proj1d/600/380', alt: 'Payment Processing Query' }
-      ],
       resources: [
         { icon: 'fas fa-file-pdf', label: 'Project Report (PDF)', href: 'database project.pdf', color: '#e53e3e' },
         { icon: 'fas fa-link', label: 'Oracle Live SQL', href: 'https://livesql.oracle.com/ords/livesql/s/cl6driti7n5w6jxes9jcqg63n', color: '#c9a96e' }
@@ -135,12 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'Conducted initial testing to ensure functional and non-functional requirements are met.',
         'Delivered easy listing, secure transactions, and advanced search filters for the campus student community.',
         'Acted as point of contact for team queries and escalated critical issues to project director.'
-      ],
-      images: [
-        { src: 'https://picsum.photos/seed/proj3a/600/380', alt: 'CampuSwap App Interface' },
-        { src: 'https://picsum.photos/seed/proj3b/600/380', alt: 'Item Listing Feature' },
-        { src: 'https://picsum.photos/seed/proj3c/600/380', alt: 'Transaction Flow' },
-        { src: 'https://picsum.photos/seed/proj3d/600/380', alt: 'Search and Filter UI' }
       ],
       resources: [
         
@@ -268,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ],
       resources: [
         { icon: 'fab fa-github', label: 'GitHub Repository', href: 'https://github.com/husbot/Secure-Enterprise-Network-Design-and-Implementation-Using-Cisco-Packet-Tracer', color: '#24292e' },
-        { icon: 'fas fa-network-wired', label: 'Packet Tracer File (.pkt)', href: 'enterprise-network.pkt', color: '#1ba0d7' }
+        { icon: 'fas fa-network-wired', label: 'Packet Tracer File (.pkt)', href: 'Enterprise_Network_Insfrastructure_Design.pkt', color: '#1ba0d7' }
       ]
     },
     'proj-11': {
@@ -380,7 +368,11 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
     // Focus management for accessibility
-    setTimeout(() => closeModalBtn?.focus(), 50);
+    setTimeout(() => {
+      closeModalBtn?.focus();
+      // Re-bind lightbox to any newly injected modal images
+      document.dispatchEvent(new Event('portfolioModalOpen'));
+    }, 50);
   };
 
   const closeModal = () => {
@@ -469,40 +461,43 @@ document.addEventListener('DOMContentLoaded', () => {
   // =============================================
   const lightbox = document.getElementById('global-lightbox');
   const lightboxImg = document.getElementById('lightbox-target-img');
-  const lightboxCaption = document.getElementById('lightbox-caption');
   const lightboxClose = document.querySelector('.lightbox-close');
 
-  const openLightbox = (src, alt) => {
+  const openLightbox = (src) => {
     lightboxImg.src = src;
-    lightboxCaption.textContent = alt || 'Portfolio Image';
     lightbox.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   };
 
   const closeLightbox = () => {
     lightbox.style.display = 'none';
-    // Restore overflow based on modal state
     document.body.style.overflow = (modal?.style.display === 'block') ? 'hidden' : '';
   };
 
-  // Delegate click on all images (except the lightbox image itself)
-  document.body.addEventListener('click', (e) => {
-    const img = e.target.closest('img');
-    if (!img || img.id === 'lightbox-target-img') return;
-    e.preventDefault();
-    e.stopPropagation();
-    openLightbox(img.src, img.alt);
-  });
+  // Attach direct click listener to every img on the page except the lightbox img itself.
+  // Using direct listeners bypasses any stopPropagation() on parent containers.
+  const bindAllImages = () => {
+    document.querySelectorAll('img:not(#lightbox-target-img)').forEach(img => {
+      if (img.dataset.lightboxBound) return; // avoid double-binding
+      img.dataset.lightboxBound = '1';
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', (e) => {
+        e.stopPropagation(); // stop accordion toggle, not lightbox
+        openLightbox(img.src);
+      });
+    });
+  };
 
-  // Also handle profile pic specifically
-  document.getElementById('profile-photo')?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openLightbox(e.target.src, 'Nur Husna Syaza — Profile Photo');
-  });
+  // Bind on load
+  bindAllImages();
+
+  // Re-bind after modal opens (JS-injected slider images)
+  const _origOpenModal = window._portfolioOpenModal;
+  document.addEventListener('portfolioModalOpen', bindAllImages);
 
   lightboxClose?.addEventListener('click', closeLightbox);
   lightbox?.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
+    if (e.target === lightbox || e.target === lightboxImg) closeLightbox();
   });
 
   document.addEventListener('keydown', (e) => {
