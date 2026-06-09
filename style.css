@@ -709,6 +709,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .resource-link-btn:hover i { color: #fff; }
 
+/* Inline resource link inside timeline expand panels */
+.tl-resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold);
+  border: 1px solid rgba(201,169,110,0.35);
+  border-radius: 6px;
+  padding: 0.35rem 0.8rem;
+  transition: background var(--transition), color var(--transition);
+  text-decoration: none;
+}
+.tl-resource-link:hover {
+  background: rgba(201,169,110,0.12);
+  color: var(--gold-light);
+}
+
 /* ===== SKILLS ===== */
 .skills-section { background: var(--navy); }
 .skills-section .section-label { color: var(--gold-light); }
