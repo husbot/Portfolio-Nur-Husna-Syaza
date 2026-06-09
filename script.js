@@ -233,12 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
         'Analysed 7 days of data (10–16 Mar 2026): dominant carriers AirAsia (AXM) and Malaysia Airlines (MAS), cruising altitude 9,000–11,000 m, peak traffic 18:00 MYT (38 flights/hr).',
         'Implemented GPS-inferred airport detection by clustering ground-level aircraft positions; total implementation cost: RM 0 / $0.'
       ],
-      images: [
-        { src: 'IoT.mp4', alt: 'Perak AirWatch — Live Flight Radar Dashboard' }
-      ],
       resources: [
         { icon: 'fab fa-github', label: 'GitHub Repository', href: 'https://github.com/husbot/Perak-AirWatch-IoT-based-Aircraft-Monitoring-System', color: '#24292e' },
-        { icon: 'fas fa-file-pdf', label: 'IoT Project Report (PDF)', href: 'IOT Group Project.pdf', color: '#e53e3e' }
+        { icon: 'fas fa-file-pdf', label: 'IoT Project Report (PDF)', href: 'IOT Group Project.pdf', color: '#e53e3e' },
+        { icon: 'fas fa-video', label: 'Watch Demo Video', href: 'https://go.screenpal.com/watch/cO1QFlnuZ1u', color: '#c9a96e' }
       ]
     },
     'proj-9': {
@@ -269,7 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Maximizes uptime through structural redundancy and establishes a robust information assurance baseline mitigating data leaks and unauthorized entry.'
       ],
       resources: [
-        { icon: 'fab fa-github', label: 'GitHub Repository', href: 'https://github.com/husbot/Secure-Enterprise-Network-Design-and-Implementation-Using-Cisco-Packet-Tracer', color: '#24292e' }
+        { icon: 'fab fa-github', label: 'GitHub Repository', href: 'https://github.com/husbot/Secure-Enterprise-Network-Design-and-Implementation-Using-Cisco-Packet-Tracer', color: '#24292e' },
+        { icon: 'fas fa-network-wired', label: 'Packet Tracer File (.pkt)', href: 'enterprise-network.pkt', color: '#1ba0d7' }
       ]
     },
     'proj-11': {
